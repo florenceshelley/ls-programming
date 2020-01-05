@@ -37,4 +37,3 @@ console.log(
     ? `The result is: ${output}`
     : 'Whoops! One or both of the entered number values are invalid'
 );
-
