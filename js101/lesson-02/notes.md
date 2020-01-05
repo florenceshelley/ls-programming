@@ -88,3 +88,26 @@ function findGreatest(numbers) {
 * **Guard clause**: a check that immediately exits the function, either with a return statement or an exception, e.g. `if (numbers === undefined) return;`
 * Remember that pseudocode is a guess at the solution; there's no verification that the logic is correct, and you can't do that until you translate it to program code
 * For more sophisticated problems, we need to take a piecemeal approach when writing pseudocode, then translate that pseudocode to JS
+
+## Flowchart
+* **Oval:** Star/Stop
+* **Rectangle:** Processing Step
+* **Parallelogram:** Input/Output
+* **Diamond:** Decision
+* **Circle:** Connector
+
+> *See sample image(s) in lesson section*
+
+* The decision component (diamond) should only have two branches. If you have a decision condition that has 3 (or more branches), use separate diamonds for each branch
+* Arrows should show the logic "flow"; helping us to map out the step-by-step logic our program would need to solve a problem
+* This is called the **imperative** or **procedural** way to solve a problem
+* In many higher level languages, basic concepts such as iterating over a collection are _encapsulated_ into a method, e.g. `forEach`
+* Using `forEach` is the _declarative_ way to solve a problem
+  * Declarative meaning that expressions or declarations are used instead of statements, see [Sookocheff's Blog](https://sookocheff.com/post/fp/what-is-functional-programming/)
+* Flowcharts = imperative approach
+* Visually and manually loop rather than using any declarative constructs built into the language; this forces you to understand the logic much better, and also forces you to "think like a computer", thus helping you debug logical errors in your code
+
+### A Larger Problem
+* When pseudocode gets long, it becomes difficult to trust the accuracy of the logic (recall that you can only verify the logic by running the actual program code), therefore it's prudent to extract a logical grouping into a sub-process and tackle various pieces independently
+* As you use pseudocode and flowcharts to help you dissect the logic of a problem, you always need to think about how detailed the chart and words should be, and what you can extrac to sub-processes; a programmer must always think about that when designing the solution to a problem
+* By not worrying about the low-level details of how those sub-processes wil work, we can think at a higher level about our overall application logic, when we're ready to dive into how each of those sub-processes should work, we can create the detailed pseudocode and flowcharts for each of them
