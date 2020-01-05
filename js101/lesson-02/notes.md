@@ -1,3 +1,6 @@
+## Markdown
+* See [GitHub Flavoured Markdown Spec](https://github.github.com/gfm/)
+
 ## Truthiness
 * **Short-circuit operators:** `&&` and `||`, where JS stops evaluating the expression as soon as a single condition is met
 * Relying on the short-circuit behaviour can be dangerous, but can sometimes be handy, i.e. checking that a value first exists before operating on it
