@@ -1,7 +1,7 @@
-const readline = require('readline');
+const {createInterface} = require('readline');
 let num1, num2, operator, output;
 
-const interface = readline.createInterface({
+const readline = createInterface({
   input: process.stdin,
   output: process.stdout
 });
@@ -9,24 +9,24 @@ const interface = readline.createInterface({
 console.log('Welcome to Calculator!');
 
 // Ask the user for the first number
-interface.question('What\'s the first number?\n', answer1 => {
+readline.question('What\'s the first number?\n', answer1 => {
   num1 = answer1;
 
   // Ask the user for the second number
-  interface.question('What\'s the second number?\n', answer2 => {
+  readline.question('What\'s the second number?\n', answer2 => {
     num2 = answer2;
 
     // Ask the user for an operation to perform
-    interface.question(
+    readline.question(
       'What operation would you like to perform?\n1) Add 2) Subtract 3) Multiply 4) Divide\n',
       answer3 => {
         operator = answer3;
-        interface.close();
+        readline.close();
       });
   });
 });
 
-interface.on('close', () => {
+readline.on('close', () => {
   // Perform the operation on the two numbers
   if (operator === '1') {
     output = Number(num1) + Number(num2);
@@ -39,11 +39,13 @@ interface.on('close', () => {
   }
 
   // Print the result to the terminal
-  console.log(
+  const error = operator < 1 || operator > 4
+    ? 'Whoops! You\'ve selected an invalid operation'
+    : 'Whoops! One or both of the entered number values are invalid';
+
+    console.log(
     output
       ? `The result is: ${output}`
-      : operator < 1 || operator > 4
-        ? 'Whoops! You\'ve selected an invalid operation'
-        : 'Whoops! One or both of the entered number values are invalid'
+      : error
   );
 });

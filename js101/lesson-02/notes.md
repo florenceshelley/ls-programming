@@ -114,3 +114,10 @@ function findGreatest(numbers) {
 * When pseudocode gets long, it becomes difficult to trust the accuracy of the logic (recall that you can only verify the logic by running the actual program code), therefore it's prudent to extract a logical grouping into a sub-process and tackle various pieces independently
 * As you use pseudocode and flowcharts to help you dissect the logic of a problem, you always need to think about how detailed the chart and words should be, and what you can extrac to sub-processes; a programmer must always think about that when designing the solution to a problem
 * By not worrying about the low-level details of how those sub-processes wil work, we can think at a higher level about our overall application logic, when we're ready to dive into how each of those sub-processes should work, we can create the detailed pseudocode and flowcharts for each of them
+
+## ESLint
+* Make your variable and functio names consistent and _predictable_
+* Never use assignments as a conditional expression if an `if` statement
+* You should install `eslint` as a global package (along with `eslint-cli` and `babel-eslint`)
+* `npm i (-g) eslint@5.12.1`
+* See [Configuring ESLint](https://eslint.org/docs/user-guide/configuring)
