@@ -4,13 +4,28 @@ const {localize} = require('./calculator-localization');
 let lang = 'en';
 
 // Get prompt messages based on language
-const prompt = (key, extension = '') => {
-  const message = localize(key, lang);
+const prompt = (key, extension = '', userLang = lang) => {
+  const message = localize(key, userLang);
   console.log(`=> ${message}${extension}`);
 };
 
 // Check for valid number
 const isInvalidNum = num => !num || Number.isNaN(Number(num));
+
+// Ask the user to select a language
+const getLang = () => {
+  const LANGUAGES = ['en', 'fr'];
+
+  prompt('langSelect', '', 'en');
+  let userLang = question().replace(/'/g, '').toLowerCase();
+
+  while (!LANGUAGES.includes(userLang)) {
+    prompt('invalidLanguage');
+    userLang = question().replace(/'/g, '').toLowerCase();
+  }
+
+  return userLang;
+};
 
 // Ask the user for a number
 const getNum = position => {
@@ -88,5 +103,8 @@ const calculator = () => {
 };
 
 // Initialize
-prompt('greeting');
-calculator();
+(() => {
+  lang = getLang();
+  prompt('greeting');
+  calculator();
+})();
