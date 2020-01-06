@@ -1,39 +1,54 @@
 const {question} = require('readline-sync');
 let num1, num2, operator, output;
 
-console.log('Welcome to Calculator!');
+const prompt = message => console.log(`=> ${message}`);
+const invalidNum = num => !num || Number.isNaN(Number(num));
+
+prompt('Welcome to Calculator!');
 
 // Ask the user for the first number
-console.log('What\'s the first number?');
+prompt('What\'s the first number?');
 num1 = question();
 
+while (invalidNum(num1)) {
+  prompt('Whoops! You\'ve entered an invalid number value');
+  num1 = question();
+}
+
 // Ask the user for the second number
-console.log('What\'s the second number?');
+prompt('What\'s the second number?');
 num2 = question();
 
+while (invalidNum(num2)) {
+  prompt('Whoops! You\'ve entered an invalid number value');
+  num2 = question();
+}
+
 // Ask the user for an operation to perform
-console.log(
-  'What operation would you like to perform?' +
-  '\n1) Add 2) Subtract 3) Multiply 4) Divide'
-);
+prompt('What operation would you like to perform?');
+prompt('1) Add 2) Subtract 3) Multiply 4) Divide');
 operator = question();
 
+while (!['1', '2', '3', '4'].includes(operator)) {
+  prompt('Whoops! You\'ve selected an invalid operation');
+  operator = question();
+}
+
 // Perform the operation on the two numbers
-if (operator === '1') {
-  output = Number(num1) + Number(num2);
-} else if (operator === '2') {
-  output = Number(num1) - Number(num2);
-} else if (operator === '3') {
-  output = Number(num1) * Number(num2);
-} else if (operator === '4') {
-  output = Number(num1) / Number(num2);
-} else {
-  console.log('Whoops! You\'ve selected an invalid operation');
+switch (operator) {
+  case '1':
+    output = Number(num1) + Number(num2);
+    break;
+  case '2':
+    output = Number(num1) - Number(num2);
+    break;
+  case '3':
+    output = Number(num1) * Number(num2);
+    break;
+  case '4':
+    output = Number(num1) / Number(num2);
+    break;
 }
 
 // Print the result to the terminal
-console.log(
-  output
-    ? `The result is: ${output}`
-    : 'Whoops! One or both of the entered number values are invalid'
-);
+prompt(`The result is: ${output}`);
