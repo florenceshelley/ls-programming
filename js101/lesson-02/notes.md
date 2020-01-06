@@ -168,3 +168,6 @@ function findGreatest(numbers) {
   * The debugger will execute on every iteration until the loop condition evaluates to `false`
 5. Advanced debugging
   * Consider node debuger and chrome dev tools additional helpful features to systematically step through code
+
+## Assignment: Calculator Bonus Features
+* As you program more, you'll realize that there's not such thing as a program that's _"done"_
