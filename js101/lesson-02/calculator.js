@@ -1,15 +1,24 @@
 const {question} = require('readline-sync');
+const {localize} = require('./calculator-localization');
 
-const prompt = message => console.log(`=> ${message}`);
+let lang = 'en';
+
+// Get prompt messages based on language
+const prompt = (key, extension = '') => {
+  const message = localize(key, lang);
+  console.log(`=> ${message}${extension}`);
+};
+
+// Check for valid number
 const invalidNum = num => !num || Number.isNaN(Number(num));
 
 // Ask the user for a number
 const getNum = position => {
-  prompt(`What's the ${position} number?`);
+  prompt(`${position}Number`);
   let number = question();
 
   while (invalidNum(number)) {
-    prompt('Whoops! You\'ve entered an invalid number value');
+    prompt('invalidNumber');
     number = question();
   }
 
@@ -20,16 +29,28 @@ const getNum = position => {
 const getOperator = () => {
   const OPERATORS = ['1', '2', '3', '4'];
 
-  prompt('What operation would you like to perform?');
-  prompt('1) Add 2) Subtract 3) Multiply 4) Divide');
+  prompt('operationType');
   let operator = question();
 
   while (!OPERATORS.includes(operator)) {
-    prompt('Whoops! You\'ve selected an invalid operation');
+    prompt('invalidOperator');
     operator = question();
   }
 
   return operator;
+};
+
+// Ask the user if they want to calculate something else
+const getUserDecision = () => {
+  prompt('performAnother');
+  let decision = question().toLowerCase();
+
+  while (!['y', 'n'].includes(decision)) {
+    prompt('invalidYesOrNo');
+    decision = question().toLowerCase();
+  }
+
+  return decision;
 };
 
 // Perform the operation on the two numbers
@@ -52,7 +73,9 @@ const calculate = (num1, num2, operator) => {
   }
 
   // Print the result to the terminal
-  prompt(`The result is: ${output}`);
+  return (operator !== '4' && num2 !== '0') || output !== Infinity
+    ? prompt('result', `: ${output}`)
+    : prompt('noZeroDivisor');
 };
 
 // Main
@@ -63,22 +86,15 @@ const calculator = () => {
 
   calculate(num1, num2, operator);
 
-  // Ask the user if they want to calculate something else
-  prompt('Do you want to perform another calculation? (y/n)');
-  let calculateAgain = question().toLowerCase();
-
-  while (!['y', 'n'].includes(calculateAgain)) {
-    prompt ('Whoops! Please enter yes (y) or no (n)');
-    calculateAgain = question().toLowerCase();
-  }
+  let calculateAgain = getUserDecision();
 
   if (calculateAgain === 'y') {
     calculator();
   } else if (calculateAgain === 'n') {
-    prompt('Goodbye!');
+    prompt('terminate');
   }
 };
 
 // Initialize
-prompt('Welcome to Calculator!');
+prompt('greeting');
 calculator();
