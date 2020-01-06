@@ -171,3 +171,4 @@ function findGreatest(numbers) {
 
 ## Assignment: Calculator Bonus Features
 * As you program more, you'll realize that there's not such thing as a program that's _"done"_
+* See [What is JSON](https://developers.squarespace.com/what-is-json)
