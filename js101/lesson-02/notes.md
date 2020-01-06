@@ -121,3 +121,50 @@ function findGreatest(numbers) {
 * You should install `eslint` as a global package (along with `eslint-cli` and `babel-eslint`)
 * `npm i (-g) eslint@5.12.1`
 * See [Configuring ESLint](https://eslint.org/docs/user-guide/configuring)
+
+## Debugging
+* Programmers can get through the trivial code rather quickly, so the majority of their time is spent analyzing and understanding a problem, experimenting or coming up with an approach, or debugging bugs in the code
+
+### Temperament
+* *"The key to debugging is a logical mind and patient temperament"*
+* As a programmer, you need to developer a systematic, patient temperament when faced with a problem
+* Analogy: if you are walking to the bus stop and the bus leaves right before you get there
+  * Someone with a programmer temperament should figure out
+    1. when the next one comes
+    2. if there's an alternative path of transfers you can take
+    3. other alternative forms of transportation
+* Stay even-keeled and be systematic
+* *"Dealing with feelings of frustration is a critical aspect of learning to program"*
+
+### Stack Trace
+* Study the stack trace carefully and try to extract its meaningful bits
+
+### Steps to Debugging
+1. Reproduce the error
+  * Programmers need a deterministic way to reproduce the problem consistently, and only then can they start to isolate the root case
+2. Determine the boundaries of the error
+  * Modify your code to determine what might be causing the error, e.g. test `data.users().getAll().push(newUser)`, `data.users().getAll().push(anotherUser)`, `data.users().getAll()`, `data.users()`, etc.
+3. Trace the code
+  * _Trapping the error:_ identifying the area where an error originates
+4. Understand the problem well
+  * Break it down, line by line
+5. Implement a fix
+  * When using a library or code that you can't modify, sometimes you have little choice but to deal with the edge cases in your code, and may instead have to implement around it, e.g. using try/catch blocks
+  > **Fix one problem at a time:** despite noticing other edge cases or problems while implementing a fix, you should resist trying to fix them all at once, as it becomes easy to be confused and make the situation even worse than it was; make a note of the issues your notice, finish fixing on what you're working on, then return to the list of issues and work on them one by one
+6. Test the fix
+  * Be sure to verify that the code fixed the problem, and you may want to add an automated test to prevent regression (for now, test manually)
+
+### Techniques for Debugging
+1. Line by line
+  * Being careful, patient and developing a habit of _reading code line-by-line, word-by-word, character-by-character_ is your most useful programming skill; all other debugging tips and tools won't matter if you aren't _detail oriented_
+2. Rubber duck
+  * When you explain the problem to a rubber duck, you force yourself to articulate the problem, detail by detail, thus often leading to discovering the root of the problem; focus on walking through the code, line by line
+3. Walking away
+4. Inspecting with a debugger
+  * You can run the debugger using `inspect` from the cli, e.g. `node inspect file.js`
+  * _Breakpoint:_ when the program stops execution at a specific line
+  * Use `cont` to move onto the next point in a program
+  * Use `watch('symbolConstantExpressionOrVariableToWatchFor')` to specificy to the debugger what you want to watch for (see the value of the expression when execution stops at that breakpoint)
+  * The debugger will execute on every iteration until the loop condition evaluates to `false`
+5. Advanced debugging
+  * Consider node debuger and chrome dev tools additional helpful features to systematically step through code
