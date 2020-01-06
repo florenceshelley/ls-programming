@@ -10,19 +10,19 @@ const prompt = (key, extension = '') => {
 };
 
 // Check for valid number
-const invalidNum = num => !num || Number.isNaN(Number(num));
+const isInvalidNum = num => !num || Number.isNaN(Number(num));
 
 // Ask the user for a number
 const getNum = position => {
   prompt(`${position}Number`);
   let number = question();
 
-  while (invalidNum(number)) {
+  while (isInvalidNum(number)) {
     prompt('invalidNumber');
     number = question();
   }
 
-  return number;
+  return Number(number);
 };
 
 // Ask the user for an operation to perform
@@ -55,39 +55,31 @@ const getUserDecision = () => {
 
 // Perform the operation on the two numbers
 const calculate = (num1, num2, operator) => {
-  let output;
-
   switch (operator) {
-    case '1':
-      output = Number(num1) + Number(num2);
-      break;
-    case '2':
-      output = Number(num1) - Number(num2);
-      break;
-    case '3':
-      output = Number(num1) * Number(num2);
-      break;
-    case '4':
-      output = Number(num1) / Number(num2);
-      break;
+    case '1': return num1 + num2;
+    case '2': return num1 - num2;
+    case '3': return num1 * num2;
+    case '4': return num1 / num2;
+    default: return localize('errorOccurred', lang);
   }
-
-  // Print the result to the terminal
-  return (operator !== '4' && num2 !== '0') || output !== Infinity
-    ? prompt('result', `: ${output}`)
-    : prompt('noZeroDivisor');
 };
+
+// Print the result to the terminal
+const displayResult = output => (
+  output !== Infinity
+    ? prompt('result', `: ${output}`)
+    : prompt('noInfinityRule')
+);
 
 // Main
 const calculator = () => {
   let num1 = getNum('first');
   let num2 = getNum('second');
   let operator = getOperator();
-
-  calculate(num1, num2, operator);
+  let output = calculate(num1, num2, operator);
+  displayResult(output);
 
   let calculateAgain = getUserDecision();
-
   if (calculateAgain === 'y') {
     calculator();
   } else if (calculateAgain === 'n') {
