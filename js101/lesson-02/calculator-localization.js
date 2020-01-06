@@ -1,14 +1,14 @@
 const MESSAGES = {
   en: {
-    errorOccurred: 'An error has occurred...',
     firstNumber: 'What\'s the first number?',
     greeting: 'Welcome to Calculator!',
-    invalidLanguage: 'Whoops! You\'ve entered an invalid language',
+    invalidLanguage: 'Whoops! You\'ve entered an invalid option, please choose English (en) or French (fr)',
     invalidNumber: 'Whoops! You\'ve entered an invalid number value',
     invalidOperator: 'Whoops! You\'ve selected an invalid operation',
     invalidYesOrNo: 'Whoops! Please enter yes (y) or no (n)',
     langSelect: 'Select a language: \'en\' or \'fr\'',
-    noInfinityRule: 'Whoops, we\'ve reached Infinity! Check that zero was not used as a divisor, and try again',
+    noInfinityRule: 'Whoops, the result returned Infinity! Check that zero was not used as a divisor, and try again',
+    noResult: 'No result... Looks like something went wrong, please try again',
     operationType: 'What operation would you like to perform?\n=> 1) Add 2) Subtract 3) Multiply 4) Divide',
     performAnother: 'Do you want to perform another calculation? (y/n)',
     result: 'The result is',
@@ -16,7 +16,6 @@ const MESSAGES = {
     terminate: 'Goodbye!'
   },
   fr: {
-    errorOccurred: 'Une erreur est survenue...',
     firstNumber: 'Quel est le premier numéro?',
     greeting: 'Bienvenue dans Calculatrice!',
     invalidLanguage: 'Oups! Vous avez entré une langue invalide',
@@ -24,7 +23,8 @@ const MESSAGES = {
     invalidOperator: 'Oups! Vous avez sélectionné une opération invalide',
     invalidYesOrNo: 'Oups! Veuillez saisir oui (y) ou non (n)',
     langSelect: 'Sélectionnez une langue: \'en \' ou \'fr \'',
-    noInfinityRule: 'Oups, nous avons atteint Infinity! Vérifiez que zéro n\'a pas été utilisé comme diviseur et réessayez',
+    noInfinityRule: 'Oups, le résultat est revenu Infinity! Assurez-vous que zéro n\'a pas été utilisé comme séparateur et réessayez',
+    noResult: 'Aucun résultat ... On dirait que quelque chose s\'est mal passé, veuillez réessayer',
     operationType: 'Quelle opération souhaitez-vous effectuer?\n=> 1) Ajouter 2) Soustraire 3) Multiplier 4) Diviser',
     performAnother: 'Voulez-vous effectuer un autre calcul? (y / n)',
     result: 'Le résultat est',

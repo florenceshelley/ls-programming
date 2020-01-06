@@ -17,11 +17,11 @@ const getLang = () => {
   const LANGUAGES = ['en', 'fr'];
 
   prompt('langSelect', '', 'en');
-  let userLang = question().replace(/'/g, '').toLowerCase();
+  let userLang = question().toLowerCase();
 
   while (!LANGUAGES.includes(userLang)) {
     prompt('invalidLanguage');
-    userLang = question().replace(/'/g, '').toLowerCase();
+    userLang = question().toLowerCase();
   }
 
   return userLang;
@@ -75,7 +75,7 @@ const calculate = (num1, num2, operator) => {
     case '2': return num1 - num2;
     case '3': return num1 * num2;
     case '4': return num1 / num2;
-    default: return localize('errorOccurred', lang);
+    default: return localize('noResult', lang);
   }
 };
 
