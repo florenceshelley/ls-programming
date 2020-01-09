@@ -204,6 +204,46 @@ function findGreatest(numbers) {
 - Consider node debuger and chrome dev tools additional helpful features to systematically step through code
 
 ## Assignment: Calculator Bonus Features
+<<<<<<< Updated upstream
 
 - As you program more, you'll realize that there's not such thing as a program that's _"done"_
 - See [What is JSON](https://developers.squarespace.com/what-is-json)
+=======
+* As you program more, you'll realize that there's not such thing as a program that's _"done"_
+* See [What is JSON](https://developers.squarespace.com/what-is-json)
+
+## Explicit Type Coercion
+* There are two types of coercion in JS:
+	1. **Explicit coercion**
+	2. **Implicit coercion**
+* String to Number conversions is one of the most common explicit type coercions in JS programs
+* _It is what it is:_ `Number()` converts empty strings or whitespace-only strings to `0` (wtfjs)
+
+```js
+Number({})						// NaN
+Number([])						// 0
+Number([4])						// 4
+Number([undefined])		// 0
+Number([1, 2, 3])			// NaN
+Number(undefined)			// NaN
+Number(null)					// 0
+```
+
+* The key takeaway is to be aware that these inconsistencies exist, and to ensure that your code accounts for them
+* `parseInt` and `parseFloat` only operate on strings, and don't work with other types
+* `parseInt` converts strings to numbers even when the string contains non-numeric characters, as long as the string begins with a digit (optionally preceded by a `+` or `-`); observe:
+
+```js
+parseInt('12oz')			// 12
+parseInt('-12')				// -12
+parseInt('12')				// 12
+parseInt('oo+12')			// NaN
+``` 
+
+* `parseInt` also accepts a second argument called the **radix**, which specifies the base of the number contained in the string, e.g. `10101` in the binary numbering system (base-2) represents the number 21 in decimal (base-10); it supports radices from 2 to 36. See [the MDN docs](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/parseInt)
+
+```js
+parseInt('10101', 2)		// 21
+```
+
+>>>>>>> Stashed changes
