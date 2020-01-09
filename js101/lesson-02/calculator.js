@@ -1,9 +1,9 @@
-const {question} = require('readline-sync');
-const {localize} = require('./calculator-localization');
+const { question } = require('readline-sync');
+const { localize } = require('./calculator-localization');
 
 const LANGUAGES = ['en', 'fr'],
-      OPERATORS = ['1', '2', '3', '4'],
-      DECISIONS = ['y', 'n'];
+  OPERATORS = ['1', '2', '3', '4'],
+  DECISIONS = ['y', 'n'];
 let lang = 'en';
 
 // Get prompt messages based on language
@@ -54,20 +54,22 @@ const getUserInput = (options = [], message = '', error = '') => {
 // Perform the operation on the two numbers
 const calculate = (num1, num2, operator) => {
   switch (operator) {
-    case 1: return num1 + num2;
-    case 2: return num1 - num2;
-    case 3: return num1 * num2;
-    case 4: return num1 / num2;
-    default: return localize('noResult', lang);
+    case 1:
+      return num1 + num2;
+    case 2:
+      return num1 - num2;
+    case 3:
+      return num1 * num2;
+    case 4:
+      return num1 / num2;
+    default:
+      return localize('noResult', lang);
   }
 };
 
 // Print the result to the terminal
-const displayResult = output => (
-  output !== Infinity
-    ? prompt('result', `: ${output}`)
-    : prompt('noInfinityRule')
-);
+const displayResult = output =>
+  output !== Infinity ? prompt('result', `: ${output}`) : prompt('noInfinityRule');
 
 // Main
 const calculator = () => {
