@@ -204,11 +204,6 @@ function findGreatest(numbers) {
 - Consider node debuger and chrome dev tools additional helpful features to systematically step through code
 
 ## Assignment: Calculator Bonus Features
-<<<<<<< Updated upstream
-
-- As you program more, you'll realize that there's not such thing as a program that's _"done"_
-- See [What is JSON](https://developers.squarespace.com/what-is-json)
-=======
 * As you program more, you'll realize that there's not such thing as a program that's _"done"_
 * See [What is JSON](https://developers.squarespace.com/what-is-json)
 
@@ -246,4 +241,79 @@ parseInt('oo+12')			// NaN
 parseInt('10101', 2)		// 21
 ```
 
->>>>>>> Stashed changes
+### Coercing to Numbers Using the + Operator
+
+- The unary `+` operator attempts to coerce a value to a number. It works like the `Number` function, but is more succint
+
+```js
++""     // 0
++'1'    // 1
++'2.3'  // 2.3
++[]     // 0
++'abc'  // NaN
+```
+
+### Coercing Values to Strings
+* `42.toString()` — JS interprets the `.` as part of a floating point number
+
+```js
+(42).toString()													// '42'
+42..toString()													// '42'
+[1, 2, 3].toString()										// '1,2,3'
+[1, null, 2, undefined, 3].toString() 	// '1,,2,,3'
+```
+
+* `Array.prototype.toString()` treats `null` and `undefined` elements as empty values
+* In JS, it's illegal to call a method on `null` and `undefined`
+* `String()` works on `null` and `undefined`, which is useful since `.toString()` can lead to a program-halting error if the value turns out to be `undefined` or `null`
+
+```js
+String(null)				// 'null'
+String(undefined)		// 'undefined'
+```
+
+* Understand the different methods and relative advantages and disadvantages of each method
+
+## Implicit Type Coercion
+```js
+1 == true						// true
+3 == true						// false
+0 == false					// true
+undefined == null		// true
+```
+
+* `if (val === undefined || val === null)` can be shortened to `if (val == undefined)` without any effect on its behaviour, but opt for the first version for explicitness and clarity
+
+```js
+let arr = []
+arr = []				// false
+arr == arr			// true
+```
+
+* When one of the operands is an object and the other a primitive, `==` coerces the object to a primitive before making the comparison
+
+```js
+'' == {}									// false
+'[object object]' == {}		// true
+[] == ''									// true
+```
+
+* The plain object `{}` is coerced into the string `'[object object]'`, thus evaluating to `true`
+* An empty array is coerced into an empty string, thus `[] == 0` evaluates to `true` (`[]` => `''`, `''` => `0`, `0 == 0` => `true`, therefore `[] == 0` => `true`)
+
+* When a number is compared to a string using `==`, the string is coerced to a number
+* When a boolean is compared to any other value, it is coerced to a number and then compared again using the `==` operator
+* When an object is compared with a primitive value, the object is coerced into a primitive value and compared again using the `==` operator
+* A `==` comparison of `undefined` with `null` evaluates to `true`
+
+
+```js
+1 + true			// 2
+1 + false			// 1
+true + false	// 1
+null + false	// 0
+null + null		// 0
+1 + undefined	// NaN
+```
+
+* The relational operators `<`, `>`, `<=`, `>=` are defined for numbers (numeric comparison) and strings (lexicographic/alphabetical order)
