@@ -68,8 +68,9 @@ const calculate = (num1, num2, operator) => {
 };
 
 // Print the result to the terminal
-const displayResult = output =>
-  output !== Infinity ? prompt('result', `: ${output}`) : prompt('noInfinityRule');
+const displayResult = output => {
+  return output !== Infinity ? prompt('result', `: ${output}`) : prompt('noInfinityRule');
+};
 
 // Main
 const calculator = () => {
