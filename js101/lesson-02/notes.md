@@ -317,3 +317,99 @@ null + null		// 0
 ```
 
 * The relational operators `<`, `>`, `<=`, `>=` are defined for numbers (numeric comparison) and strings (lexicographic/alphabetical order)
+
+## Code Style
+
+```js
+const CARDS = [1, 2, 3];
+```
+
+* Since `CARDS` is a constant, you shouldn't add, remove, or modify its values. JS lets you do that, but you should not. **Constants should be immutable.**
+
+### Functions
+
+* The instinct to extract code to a function is good. However, be sure that the function does only one thing, and that its responsibility is limited
+
+#### Tips for Writing Good Functions
+
+* Don't log to the console, return a **significant** value (explicitly return something, since JS always returns a value, and returns `undefined` if nothing is returned; the key is that return value shouldn't be part of the function's defined behaviour
+
+* Decide whether the function should return a value with no side effects or perform side effects with no return value (choose one); the function name should reflect whether it has side effects or not, i.e. you can name a function `updateElementAt` that updates the content of a collection, where `upate` implies that you're changing something externally (a side effect) rather than obtaining a new value
+
+* If the function also mutates the cards array, it becomes confusing; if you find yourself always looking at the function implementation, it's a sign that the function is misnamed or doing more than one thing
+
+#### Functions Should Be at the Same Level of Abstraction
+
+* Usually, functions take some input and return an output
+
+* When working with a function, you should mentally extract the function from the program and work with it in isolation; you should be able to feed it inputs and expect it to produce some outputs (think: should be testable through Postman) — when you have a function like that, you can use it without thinking about the implementation; working this way helps compartmentalize your focus (important when working on large codebases)
+
+* When you read good code, the functions are all at the same layer of abstraction
+
+* You shouldn't care about the implementation when you use the function
+
+* Pay attention to how you organize your functions and whether you can look at a list of functions a wee later and still understand how to use them without studying their implementations
+
+#### Function Names Should Reflect Mutation
+
+* e.g. `updateTotal` assumes that it mutates the passed-in parameter, where we don't expect the function to return a value
+
+* The less you have to remember, and the less other people have to remember while looking at your code, the better
+
+* Use naming conventions, even in your code, to signify which types of functions mutate vs. which functions return values
+
+* If a function has side effects and returns a value, it makes debugging and using the function difficult
+
+* If some functions are convoluted because the logic is complex, it's a sign that you don't quite understand the problem well enough to break it down into well-compartmentalized pieces; your understanding should grow as you dig deeper into the code. Refactor your code as you understand the problem, to reflect that increased clarity (as your narrative comes into focus, the structure of your piece becomes more organized and clean)
+
+#### Displaying Output
+
+* In functions that only display information (e.g. in functions that only log something to the console), be sure to prefix the function with `print`, `say` or `display`, and only output values in these functions, don't mutate parameters or return values
+
+* Functions are like black boxes and should be self-contained, you should know what they do without looking at the implementation
+
+### Miscellaneous Tips
+
+* Name your functions from the perspective of using them later; think first about how you want to invoke them, and think about the implemenation later
+
+```js
+function findAce(cards) {...}
+
+let ace = findAce(cards);
+```
+
+* The easier it is to read your code, the easier it is to debug and maintain
+
+* Know when to use a regular `while` loop vs a generic `while (true)` loop
+
+```js
+while (answer.toLowerCase() !== 'n') {
+	console.log('Continue? (y/n)');
+	let answer = readline.question();
+}
+```
+
+* When running the above code, JS will throw an exception of "ReferenceError: answer is not defined. Fix:
+
+```js
+let answer = '';
+while (answer.toLowerCase() !== 'n') {
+	console.log('Continue? (y/)');
+	let answer = readline.question();
+}
+```
+
+* While the above works, another implementation woud be to break out of the loop:
+
+```js
+while (true) {
+	console.log('Continue? (y/n)');
+	let answer = readline.question();
+	if (answer.toLowerCase() === 'n') break;
+}
+```
+
+* In the above, all the code is contained in the loop, and is slightly easier to reason about it
+
+* Opt for clarity over terseness; we could use the user's input directly in the `if` condition, but `answer` is fine
+
