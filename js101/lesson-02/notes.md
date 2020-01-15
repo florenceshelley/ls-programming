@@ -448,3 +448,15 @@ let number = 10;
 * You want to avoid variable shadowing, since it's almost never what you intended
 
 * Exceptions in JS halt the execution of the program immediately (thereby preventing us from moving further down the code/stops executing the rest of the code)
+
+
+## Re-read: Objects vs Primitive Values
+
+1. Every value in JS is either a primitive or an object
+2. Primitives are atomic values
+3. Objects are "compound" values made up of primitives or other objects
+4. Primitive values are immutable, i.e. you can't add to, remove from or otherwise change a primitive value. Any operation performed on a primitive value returns a new primitive value
+5. Objects are mutable, i.e. certain operations on objects can change the object in place. All variables that you have reference to that object will see that change
+
+* Be sure to understand the difference between "pass by reference" vs. "pass by value"
+
