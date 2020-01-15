@@ -413,3 +413,38 @@ while (true) {
 
 * Opt for clarity over terseness; we could use the user's input directly in the `if` condition, but `answer` is fine
 
+## Variable Scope
+
+* The concept of global scope is a little more nuanced when you compare JS in the browser to JS in node. In node, a global variable is **only available in the file/module you declare it it**. If you want variables to be available in another module, you'll have to explicitly import and export them in modules :P
+
+### Local Scope
+
+* Comes in two forms: **function scope** and **block scope**
+
+#### Function Scope
+
+* Functions define a new scope for local variables (inner scope), nested functions define nested scopes, and a variable's scope is determined by where it is declared
+
+* When we instantiate variables in an inner scope, we have to be careful that we're not accidentally re-assigning an existing variable in an outer scope
+
+* Once a function finishes execution, scoped variables are immediately discarded, and control returns to the main flow of the program
+
+* In JS, we can define functions within other functions; this is not true of all languages
+
+* Inner scope variables can shadow outer scope variables, observe:
+
+```js
+let number = 10;
+
+[1, 2, 3].forEach(number => {
+	console.log(number);
+});
+```
+
+* In the above, we have two local variables in the inner scope with the same name; when that happens, it's called **variable shadowing**, and it prevents access to the outer scope local variable. In the above, the `console.log(number)` will use the parameter `number` and discard the outer scoped local variable. Variable shadowing also prevents us from making changes to the outer scoped `number`
+
+* Variable shadowing isn't limited to callback functions. Whenever you have one scope nested within another, variables in the inner scope will shadow variables in the outer scope having the same name
+
+* You want to avoid variable shadowing, since it's almost never what you intended
+
+* Exceptions in JS halt the execution of the program immediately (thereby preventing us from moving further down the code/stops executing the rest of the code)
