@@ -460,3 +460,102 @@ let number = 10;
 
 * Be sure to understand the difference between "pass by reference" vs. "pass by value"
 
+## Pass by Reference vs Pass by Value
+
+* _It's important to know what happens to function arguments._ Different languages have different strategies for this.
+
+### What Does Pass by Value Mean?
+
+* The concept of **"pass by value"** traditionally means that when you pass a variable to a function call, the variable is not affected after the function gets executed no matter what the function does with it (i.e. the function gets a copy of what the variable holds, not the variable itself).
+	* Think of it as *extracting* the value of a statement and passing it into a function call, rather than passing the *reference name* of a statement, which _references_ the value of a statement as a whole
+
+```js
+let name = 'todd';
+
+function changeName(name) {
+	name = 'bob';				// does not re-assign the outer scope's variable
+}
+
+function anotherFunction() {
+	let name = 'jim';
+	changeName(name);
+	console.log(name);	// => 'jim'
+}
+
+anotherFunction();
+```
+
+* In the code above, the `name` variables don't shadow each other since the `name` variable in `anotherFunction` is not accessible to the `changeName` function
+* When `name` from `anotherFunction` is passed to `changeName`, are we passing it by reference or by value? It looks like we may be **passing it by value** since re-assigning the variable does not affect the variable inside `anotherFunction`.
+* Had the `name` variable in `anotherFunction` changed, we would say that it is **passed by reference**
+
+### What Does Pass by Reference Mean?
+
+* In JS, an original object can easily be changed
+
+```js
+function capitalize(names) {
+	for (let index = 0; index < names.length; index++) {
+		names[index] = names[index][0].toUpperCase() + names[index].slice(1);
+	}
+}
+
+let names = ['chris', 'kevin', 'naveed'];
+capitalize(names);
+console.log(names);		// => ['Chris', 'Kevin', 'Naveed']
+```
+
+* Looking at the above, it implies that JS is **pass by reference** since the function affected the original object. However, not all operations affect the original object
+
+```js
+function capitalize(names) {
+	return names.map(name => names[0].toUpperCase() + name.slice(1));
+}
+
+let names = ['chris', 'kevin', 'naveed'];
+capitalize(names);		// => ['Chris', 'Kevin', 'Naveed']
+console.log(names);		// => ['chris', 'kevin', 'naveed']
+```
+
+* Looking at the above, it looks like we're back to JS being **pass by value** again, where the functions don't affect the original object
+
+### What JS Does
+
+* When you pass primitive values to functions, you can treat JS like **pass by value**. No operation performed on a primitive value can permanently alter the value (i.e. when you pass a primitive value to a function, no matter what that function does with that value, you won't be able to see the effects by inspecting the variable that you passed to the function)
+* Recall that primitive values are _**immutable**_
+* With objects, JS exhibits a combination of behaviours from both pass by reference as well as pass by value; some people call this _pass by reference of the value_ or _call by sharing_
+	* When passing a variable to a function, the argument is a value which is itself a _reference_ (**call-by-sharing**)
+	* Changes to the properties of objects in a function's scope are visible to the caller's scope because of shared reference
+	> All you need to know: when an operation within the function mutates its argument, it affects the original object
+* Functions and methods that mutate their callers are called **destructive functions or methods** (e.g. `Array.prototype.push`), as they permanently change the original arrays or objects
+
+```js
+function addNames(arr, name) {
+	arr.push(name);
+	// `arr = arr.push(name)` produces the same behaviour to the names array below
+}
+
+let names = ['bob', 'kim'];
+addNames(names, 'jim');
+console.log(names);			// => ['bob', 'kim', 'jim']
+```
+
+* Re-assignment is not a destructive operation, however
+	* Mutation = descructive operation, re-assignment = non-destructive operation
+
+```js
+function addName(arr, name) {
+	arr = arr.concat([name]);
+}
+
+let names = ['bob', 'kim'];
+addName(names, 'jim');
+console.log(names);		// => ['bob', 'kim']
+```
+
+* When we use `concat` to concatenate two arrays together, it returns a new array and doesn't mutate the original. However, when we use `push` to append a new value into an array, it does mutate the original array
+
+### Variables as Pointers
+
+* Re-read [Variables as Pointers](https://launchschool.com/books/javascript/read/more_stuff#variablesaspointers). Understanding this will help explain why JS exhibits the behaviours explored in this section on **Pass by Reference VS. Pass by Value**
+
