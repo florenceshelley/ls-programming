@@ -559,3 +559,176 @@ console.log(names);		// => ['bob', 'kim']
 
 * Re-read [Variables as Pointers](https://launchschool.com/books/javascript/read/more_stuff#variablesaspointers). Understanding this will help explain why JS exhibits the behaviours explored in this section on **Pass by Reference VS. Pass by Value**
 
+## Coding Tips 2
+
+* Remember to organize your code
+
+### Should a Function Return or Display?
+
+* **Side effects:** either outputting something or mutating an object, e.g.
+
+```js
+// side effect: logs output to the console
+// returns: undefined
+
+function total(num1, num2) {
+	console.log(num1 + num2);
+}
+
+// side effect: mutates the passed-in array
+// returns: updated array
+
+function append(targetArr, valueToAppend) {
+	targetArr.push(valueToAppend);
+	return targetArr;
+}
+```
+
+* No side effects:
+
+```js
+// side effect: none
+// returns: a new number
+
+function total(num1, num2) {
+	return num1 + num2;
+}
+```
+
+* If a function or method has both side effects and a meaningful return value, it's a red flag (try to have functions do one thing, and one thing only). Try to avoid writing functions that do that, as it will be challenging to use them in the future
+
+### Name Functions Appropriately
+
+> If you find yourself looking at a function's implementation every time you use it, it's a sign that the function needs to be improved
+
+* A function should do one thing and be named appropriately
+* If you can treat a function as a "black box", then it's a well-designed function
+* You should be able to use a funtion named `total` and understand that it returns a value; likewise, you should be able to use a function named `printTotal` and realize that it returns `undefined` without looking at either implementation
+
+* Don't mix up those concerns; don't write a function that does more than one of the following (ensure it only does _one_ of any of these):
+	* mutate a value
+	* output something
+	* return a meaningful value
+
+### Don't Mutate the Caller During Iteration
+
+```js
+let words = ['scooby', 'do', 'on', 'channel', 'two'];
+
+words.forEach(word => {
+	console.log(word);
+	words.shift();
+});
+```
+
+* In the above, since we are iterating through the array and calling `shift` in each iteration, we expect all elements to be removed by the end of the iteration. However, let's log the words array after the iteration to see whether that is indeed what happens:
+
+```js
+let words = ['scooby', 'do', 'on', 'channel', 'two'];
+
+words.forEach(word => {
+	console.log(word);
+	words.shift();
+});
+
+console.log(words);		// => ['channel', 'two']
+```
+
+* The reason for the above behaviour is because we are keeping the same index position as we iterate over the words array. However, because we are removing elements from the array in each iteration, the length of the array also changes. Once we reach `words.length - 1`, we are at the end of our loop. In this case, we exit out of the loop at index 2, with an array length of 2 after shifting the array
+
+> Don't mutate a collection while iterating through it
+
+* You can, however, mutate the individual elements within that collection — just not the collection itself
+
+### Variable Shadowing
+
+* Variable shadowing occurs when you choose a local variable in an inner scope that shares the same name as a variable in an outer scope; it essentially prevents you from accessing the outer scope variable from an inner scope
+
+```js
+let name = 'johnson';
+
+['kim', 'joe', 'sam'].forEach(name => {
+	console.log(`${name} ${name}`);		// prints the value at the current index twice
+});
+```
+
+### Don't Use Assignment in a Conditional
+
+```js
+// bad
+let someVar;
+
+if (someVar = getValueFromSomewhere()) {
+	console.log(someVar);
+}
+
+// good
+let someVar = getValueFromSomewhere();
+
+if (someVar) {
+	console.log(someVar);
+}
+```
+
+* However, some experienced programmers do this often (especially programmers that have been around for a long time), e.g.:
+
+```js
+let numbers = [1, 2, 3, 4, 5];
+let num;
+
+while (num = numbers.shift()) {
+	console.log(num);
+}
+
+console.log(numbers);		// []
+```
+
+* In the above, while there is nothing left to remove, `shift` returns `undefined`; this loop takes advantage of that fact to server as the loop termination condition (since `undefined` is a _falsy_ value)
+
+* As a convention, if you must do something like the above, wrap the assignment in parenthesis, signifying that you know what you're doing and this is done on purpose (albeit, try to avoid this more often than not):
+
+```js
+let numbers = [1, 2, 3, 4, 5];
+let num;
+
+while ((num = numbers.shift())) {
+	console.log(num);
+}
+
+console.log(numbers);		// []
+```
+
+### Use Underscore for Unused Callback Parameters
+
+* *Suppose you have an array of names, and you want to print out a string for every name in the array, but you don't care about the actual names.* In those situations, use an underscore to signify that we don't care about thsi particular callback parameter
+
+```js
+let names = ['kim', 'joe', 'sam'];
+names.forEach(_ => {
+	console.log('Got a name!');
+});
+```
+
+* Another example is when you need the second parameter but don't need the first one; you can use `_` to indicate that the first parameter is not being used by the callback:
+
+```js
+let names = ['kim', 'joe', 'sam'];
+names.forEach((_, index) => {
+	console.log(`${index + 1}: got a name!`);
+});
+
+// => 1: Got a name!
+// => 2: Got a name!
+// => 3: Got a name!
+```
+
+### Gain Experience Through Struggling
+
+* It's less impactful to learn **"best practices"** without first learning why they are best practices
+* Learn to be okay with struggling through the "bad" or sub-optimal practices first (it's not wasting time, it's gaining experience)
+* Becoming a good developer means experiencing and solving a lot of weird issues :P
+
+* i.e. don't memorize "best practices", but spend enough time programming to the point where you _understand the context for those practices_
+* *Coding is like writing -- there are syntacticaly rules, but there are also creative ways of expression*
+
+
