@@ -1,6 +1,6 @@
 /**
  * Rock Paper Scissors
- * @author: Florence Shelley
+ * @author Florence Shelley
  *
  * Rock Paper Scissors is a simple game played between two opponents.
  * Both the opponents choose an item from rock, paper, and scissors.
@@ -18,6 +18,41 @@
  * 2. The computer makes a choice.
  * 3. The winner is displayed.
  *
+ * @summary A user vs. computer game of Rock Paper Scissors
+ * 
+ * @todo Decompose and refactor for readability
  */
 
+const { question } = require('readline-sync');
 
+const VALID_CHOICES = ['rock', 'paper', 'scissors'];
+
+// Prompt line
+const prompt = message => {
+	console.log(`=> ${message}`);
+};
+
+prompt(`Choose one: ${VALID_CHOICES.join(', ')}`);
+let choice = question();
+
+while(!VALID_CHOICES.includes(choice)) {
+	prompt(`That's not a valid choice`);
+	choice = question();
+}
+
+let randomIndex = Math.floor(Math.random() * VALID_CHOICES.length);
+let computerChoice = VALID_CHOICES[randomIndex];
+
+prompt(`You chose ${choice}, computer chose ${computerChoice}`);
+
+if ((choice === 'rock' && computerChoice === 'scissors') ||
+	(choice === 'scissors' && computerChoice === 'paper') ||
+	(choice === 'paper' && computerChoice === 'rock')) {
+		prompt('You win, huzzah!');
+} else if ((choice === 'rock' && computerChoice === 'paper') ||
+	(choice === 'scissors' && computerChoice === 'rock') ||
+	(choice === 'paper' && computerChoice === 'scissors')) {
+		prompt('You lose, womp womp...');
+} else {
+	prompt(`It's a draw.`);
+}
