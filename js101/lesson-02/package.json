@@ -3,8 +3,7 @@
   "version": "1.0.0",
   "description": "",
   "scripts": {
-    "calc": "node calculator.js",
-    "rps": "node rps.js"
+    "calc": "node calculator.js"
   },
   "keywords": [],
   "author": "",
