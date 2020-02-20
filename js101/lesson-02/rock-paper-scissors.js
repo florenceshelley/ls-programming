@@ -25,7 +25,14 @@
 
 const { question } = require('readline-sync');
 
-const OPTIONS = ['rock', 'paper', 'scissors'];
+const OPTIONS = ['rock', 'paper', 'scissors', 'lizard', 'spock'];
+const WINNING_COMBINATIONS = {
+	rock: ['scissors', 'lizard'],
+	paper: ['rock', 'spock'],
+	scissors: ['paper', 'lizard'],
+	lizard: ['paper', 'spock'],
+	spock:['rock', 'scissors']
+};
 
 // Prompt line
 const prompt = message => {
@@ -50,18 +57,15 @@ const getComputerSelection = () => {
 };
 
 const getWinner = (userSelection, computerSelection) => {
+	const userSelectionWins = WINNING_COMBINATIONS[userSelection].includes(computerSelection);
 	prompt(`You chose ${userSelection}, computer chose ${computerSelection}`);
-	
-	if ((userSelection === 'rock' && computerSelection === 'scissors') ||
-		(userSelection === 'scissors' && computerSelection === 'paper') ||
-		(userSelection === 'paper' && computerSelection === 'rock')) {
-			prompt('You win, huzzah!');
-	} else if ((userSelection === 'rock' && computerSelection === 'paper') ||
-		(userSelection === 'scissors' && computerSelection === 'rock') ||
-		(userSelection === 'paper' && computerSelection === 'scissors')) {
-			prompt('You lose, womp womp...');
+
+	if (userSelection === computerSelection) {
+		prompt(`It's a draw!`);
+	} else if (userSelectionWins) {
+		prompt('You win, huzzah!');
 	} else {
-		prompt(`It's a draw.`);
+		prompt('You lose, womp womp...');
 	}
 };
 
