@@ -32,27 +32,38 @@ const prompt = message => {
 	console.log(`=> ${message}`);
 };
 
-prompt(`Choose one: ${VALID_CHOICES.join(', ')}`);
-let choice = question();
+while (true) {
+	prompt(`Choose one: ${VALID_CHOICES.join(', ')}`);
+	let choice = question();
+	
+	while(!VALID_CHOICES.includes(choice)) {
+		prompt(`That's not a valid choice, please choose again`);
+		choice = question();
+	}
+	
+	let randomIndex = Math.floor(Math.random() * VALID_CHOICES.length);
+	let computerChoice = VALID_CHOICES[randomIndex];
+	
+	prompt(`You chose ${choice}, computer chose ${computerChoice}`);
+	
+	if ((choice === 'rock' && computerChoice === 'scissors') ||
+		(choice === 'scissors' && computerChoice === 'paper') ||
+		(choice === 'paper' && computerChoice === 'rock')) {
+			prompt('You win, huzzah!');
+	} else if ((choice === 'rock' && computerChoice === 'paper') ||
+		(choice === 'scissors' && computerChoice === 'rock') ||
+		(choice === 'paper' && computerChoice === 'scissors')) {
+			prompt('You lose, womp womp...');
+	} else {
+		prompt(`It's a draw.`);
+	}
 
-while(!VALID_CHOICES.includes(choice)) {
-	prompt(`That's not a valid choice`);
-	choice = question();
-}
+	prompt('Do you want to play again (y/n)?');
+	let answer = question().toLowerCase();
+	while (answer[0] !== 'n' && answer[0] !== 'y') {
+		prompt(`Please enter 'y' or 'n'`);
+		answer = question().toLocaleLowerCase();
+	}
 
-let randomIndex = Math.floor(Math.random() * VALID_CHOICES.length);
-let computerChoice = VALID_CHOICES[randomIndex];
-
-prompt(`You chose ${choice}, computer chose ${computerChoice}`);
-
-if ((choice === 'rock' && computerChoice === 'scissors') ||
-	(choice === 'scissors' && computerChoice === 'paper') ||
-	(choice === 'paper' && computerChoice === 'rock')) {
-		prompt('You win, huzzah!');
-} else if ((choice === 'rock' && computerChoice === 'paper') ||
-	(choice === 'scissors' && computerChoice === 'rock') ||
-	(choice === 'paper' && computerChoice === 'scissors')) {
-		prompt('You lose, womp womp...');
-} else {
-	prompt(`It's a draw.`);
+	if (answer !== 'y') break;
 }
