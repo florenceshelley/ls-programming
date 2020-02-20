@@ -56,19 +56,6 @@ const getComputerSelection = () => {
 	return OPTIONS[randomIndex];
 };
 
-const getWinner = (userSelection, computerSelection) => {
-	const userSelectionWins = WINNING_COMBINATIONS[userSelection].includes(computerSelection);
-	prompt(`You chose ${userSelection}, computer chose ${computerSelection}`);
-
-	if (userSelection === computerSelection) {
-		prompt(`It's a draw!`);
-	} else if (userSelectionWins) {
-		prompt('You win, huzzah!');
-	} else {
-		prompt('You lose, womp womp...');
-	}
-};
-
 const getPlayAgain = () => {
 	prompt('Do you want to play again (y/n)?');
 	let answer = question().toLowerCase();
@@ -81,11 +68,31 @@ const getPlayAgain = () => {
 	return answer[0] === 'y';
 };
 
+const displayWelcome = () => {
+	console.clear();
+	prompt('Welcome to Bonus Rock Paper Scissors!');
+};
+
+const displayWinner = (userSelection, computerSelection) => {
+	const userSelectionWins = WINNING_COMBINATIONS[userSelection].includes(computerSelection);
+	prompt(`You chose ${userSelection}, computer chose ${computerSelection}`);
+
+	if (userSelection === computerSelection) {
+		prompt(`It's a draw!`);
+	} else if (userSelectionWins) {
+		prompt('You win, huzzah!');
+	} else {
+		prompt('You lose, womp womp...');
+	}
+};
+
 const main = () => {
 	while (true) {
+		displayWelcome();
+		
 		const userSelection = getUserSelection();
 		const computerSelection = getComputerSelection();
-		getWinner(userSelection, computerSelection);
+		displayWinner(userSelection, computerSelection);
 		
 		const playAgain = getPlayAgain();
 		if (!playAgain) break;
