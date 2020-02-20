@@ -37,7 +37,10 @@ const WINNING_COMBINATIONS = {
 	spock:['rock', 'scissors']
 };
 
-// Prompt line
+/**
+ * Display prompt
+ * @param {string} message
+ */
 const prompt = message => {
 	console.log(`=> ${message}`);
 };
@@ -53,6 +56,10 @@ const displayWelcome = () => {
 	keyline();
 };
 
+/**
+ * Display game scores
+ * @param {Object} scores
+ */
 const displayScores = (scores) => {
 	prompt('SCORE BOARD');
 	prompt(`User: ${scores.user}`);
@@ -60,6 +67,11 @@ const displayScores = (scores) => {
 	keyline();
 };
 
+/**
+ * Display round winner
+ * @param {string} userSelection
+ * @param {string} computerSelection
+ */
 const displayRoundWinner = (userSelection, computerSelection) => {
 	const userSelectionWins = WINNING_COMBINATIONS[userSelection].includes(computerSelection);
 	prompt(`\n=> You chose ${userSelection}, I chose ${computerSelection}`);
@@ -75,6 +87,10 @@ const displayRoundWinner = (userSelection, computerSelection) => {
 	keyline();
 };
 
+/**
+ * Display game results
+ * @param {Object} scores
+ */
 const displayResults = scores => {
 	scores.user > scores.computer
 		? prompt(`You win with a final score of ${scores.user}!`)
@@ -120,7 +136,12 @@ const playAgain = () => {
 	return answer[0] === 'y';
 };
 
-// Main
+/** 
+ * Main
+ * @param {number} userScore
+ * @param {number} computerScore
+ * @todo Decompose and clean this up
+ */
 const game = (userScore = 0, computerScore = 0) => {
 	const scores = {
 		user: userScore,
