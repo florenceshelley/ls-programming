@@ -21,11 +21,15 @@
  * @summary A user vs. computer game of Rock Paper Scissors
  * 
  * @todo Decompose and refactor for readability
+ * @todo Add "Shortened Input" feature
+ * @todo Add "Best of 5" feature (nts: use recursion for this)
  */
 
 const { question } = require('readline-sync');
 
+// Constants
 const OPTIONS = ['rock', 'paper', 'scissors', 'lizard', 'spock'];
+const DECISIONS = ['y', 'n'];
 const WINNING_COMBINATIONS = {
 	rock: ['scissors', 'lizard'],
 	paper: ['rock', 'spock'],
@@ -39,6 +43,31 @@ const prompt = message => {
 	console.log(`=> ${message}`);
 };
 
+const displayWelcome = () => {
+	console.clear();
+	prompt('Welcome to Bonus Rock Paper Scissors!');
+};
+
+const displayWinner = (userSelection, computerSelection) => {
+	const userSelectionWins = WINNING_COMBINATIONS[userSelection].includes(computerSelection);
+	prompt(`You chose ${userSelection}, I chose ${computerSelection}`);
+
+	if (userSelection === computerSelection) {
+		prompt(`It's a draw!`);
+	} else if (userSelectionWins) {
+		prompt('You win, huzzah!');
+	} else {
+		prompt('You lose, womp womp...');
+	}
+};
+
+// Generate a computer selection given the available options
+const generateComputerSelection = () => {
+	let randomIndex = Math.floor(Math.random() * OPTIONS.length);
+	return OPTIONS[randomIndex];
+};
+
+// Prompt user for valid selection
 const getUserSelection = () => {
 	prompt(`Choose one: ${OPTIONS.join(', ')}`);
 	let userSelection = question();
@@ -51,16 +80,12 @@ const getUserSelection = () => {
 	return userSelection;
 };
 
-const getComputerSelection = () => {
-	let randomIndex = Math.floor(Math.random() * OPTIONS.length);
-	return OPTIONS[randomIndex];
-};
-
+// Determine if user wants to play again
 const getPlayAgain = () => {
 	prompt('Do you want to play again (y/n)?');
 	let answer = question().toLowerCase();
 
-	while (answer[0] !== 'n' && answer[0] !== 'y') {
+	while (!DECISIONS.includes(answer[0])) {
 		prompt(`Please enter 'y' or 'n'`);
 		answer = question().toLowerCase();
 	}
@@ -68,34 +93,18 @@ const getPlayAgain = () => {
 	return answer[0] === 'y';
 };
 
-const displayWelcome = () => {
-	console.clear();
-	prompt('Welcome to Bonus Rock Paper Scissors!');
-};
-
-const displayWinner = (userSelection, computerSelection) => {
-	const userSelectionWins = WINNING_COMBINATIONS[userSelection].includes(computerSelection);
-	prompt(`You chose ${userSelection}, computer chose ${computerSelection}`);
-
-	if (userSelection === computerSelection) {
-		prompt(`It's a draw!`);
-	} else if (userSelectionWins) {
-		prompt('You win, huzzah!');
-	} else {
-		prompt('You lose, womp womp...');
-	}
-};
-
+// Main
 const main = () => {
-	while (true) {
+	let play = true;
+	while (play) {
 		displayWelcome();
-		
+
 		const userSelection = getUserSelection();
-		const computerSelection = getComputerSelection();
+		const computerSelection = generateComputerSelection();
 		displayWinner(userSelection, computerSelection);
 		
-		const playAgain = getPlayAgain();
-		if (!playAgain) break;
+		play = getPlayAgain();
+		if (!play) prompt('Thanks for playing! Goodbye...');
 	}
 };
 
