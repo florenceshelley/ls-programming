@@ -22,7 +22,6 @@
  * 
  * @todo Decompose and refactor for readability
  * @todo Add "Shortened Input" feature
- * @todo Add "Best of 5" feature (nts: use recursion for this)
  */
 
 const { question } = require('readline-sync');
@@ -43,14 +42,27 @@ const prompt = message => {
 	console.log(`=> ${message}`);
 };
 
-const displayWelcome = () => {
-	console.clear();
-	prompt('Welcome to Bonus Rock Paper Scissors!');
+// Display divider
+const keyline = () => {
+	prompt('========================================================');
 };
 
-const displayWinner = (userSelection, computerSelection) => {
+const displayWelcome = () => {
+	console.clear();
+	prompt('Welcome to Rock Paper Scissors Spock Lizard (Best of 5)!');
+	keyline();
+};
+
+const displayScores = (scores) => {
+	prompt('SCORE BOARD');
+	prompt(`User: ${scores.user}`);
+	prompt(`Computer: ${scores.computer}`);
+	keyline();
+};
+
+const displayRoundWinner = (userSelection, computerSelection) => {
 	const userSelectionWins = WINNING_COMBINATIONS[userSelection].includes(computerSelection);
-	prompt(`You chose ${userSelection}, I chose ${computerSelection}`);
+	prompt(`\n=> You chose ${userSelection}, I chose ${computerSelection}`);
 
 	if (userSelection === computerSelection) {
 		prompt(`It's a draw!`);
@@ -59,6 +71,20 @@ const displayWinner = (userSelection, computerSelection) => {
 	} else {
 		prompt('You lose, womp womp...');
 	}
+
+	keyline();
+};
+
+const displayResults = scores => {
+	scores.user > scores.computer
+		? prompt(`You win with a final score of ${scores.user}!`)
+		: prompt(`I win with a final score of ${scores.computer}!`);
+};
+
+// Placeholder to allow scores to display before recursing to next round
+const continuePrompt = () => {
+	prompt(`Enter in any key to continue`);
+	question();
 };
 
 // Generate a computer selection given the available options
@@ -69,7 +95,8 @@ const generateComputerSelection = () => {
 
 // Prompt user for valid selection
 const getUserSelection = () => {
-	prompt(`Choose one: ${OPTIONS.join(', ')}`);
+	prompt('Choose one of the following:');
+	prompt(OPTIONS.join(', '));
 	let userSelection = question();
 
 	while (!OPTIONS.includes(userSelection)) {
@@ -81,7 +108,7 @@ const getUserSelection = () => {
 };
 
 // Determine if user wants to play again
-const getPlayAgain = () => {
+const playAgain = () => {
 	prompt('Do you want to play again (y/n)?');
 	let answer = question().toLowerCase();
 
@@ -94,19 +121,42 @@ const getPlayAgain = () => {
 };
 
 // Main
-const main = () => {
-	let play = true;
-	while (play) {
-		displayWelcome();
+const game = (userScore = 0, computerScore = 0) => {
+	const scores = {
+		user: userScore,
+		computer: computerScore
+	};
+	
+	displayWelcome();
+	displayScores(scores);
 
-		const userSelection = getUserSelection();
-		const computerSelection = generateComputerSelection();
-		displayWinner(userSelection, computerSelection);
-		
-		play = getPlayAgain();
-		if (!play) prompt('Thanks for playing! Goodbye...');
+	const userSelection = getUserSelection();
+	const computerSelection = generateComputerSelection();
+	displayRoundWinner(userSelection, computerSelection);
+
+	const userSelectionWins = WINNING_COMBINATIONS[userSelection].includes(computerSelection);
+	if (userSelectionWins) {
+		scores.user++;
+	} else if (userSelection !== computerSelection) {
+		scores.computer++;
+	}
+
+	if (scores.user < 3 && scores.computer < 3) {
+		continuePrompt();
+		game(scores.user, scores.computer)
+	} else {
+		displayResults(scores);
 	}
 };
 
 // Initialize
-main();
+(() => {
+	let play = true;
+	
+	while (play) {
+		game();
+		play = playAgain();
+	}
+
+	prompt('Thanks for playing! Goodbye...');
+})();
