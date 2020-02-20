@@ -25,45 +25,68 @@
 
 const { question } = require('readline-sync');
 
-const VALID_CHOICES = ['rock', 'paper', 'scissors'];
+const OPTIONS = ['rock', 'paper', 'scissors'];
 
 // Prompt line
 const prompt = message => {
 	console.log(`=> ${message}`);
 };
 
-while (true) {
-	prompt(`Choose one: ${VALID_CHOICES.join(', ')}`);
-	let choice = question();
-	
-	while(!VALID_CHOICES.includes(choice)) {
+const getUserSelection = () => {
+	prompt(`Choose one: ${OPTIONS.join(', ')}`);
+	let userSelection = question();
+
+	while (!OPTIONS.includes(userSelection)) {
 		prompt(`That's not a valid choice, please choose again`);
-		choice = question();
+		userSelection = question();
 	}
+
+	return userSelection;
+};
+
+const getComputerSelection = () => {
+	let randomIndex = Math.floor(Math.random() * OPTIONS.length);
+	return OPTIONS[randomIndex];
+};
+
+const getWinner = (userSelection, computerSelection) => {
+	prompt(`You chose ${userSelection}, computer chose ${computerSelection}`);
 	
-	let randomIndex = Math.floor(Math.random() * VALID_CHOICES.length);
-	let computerChoice = VALID_CHOICES[randomIndex];
-	
-	prompt(`You chose ${choice}, computer chose ${computerChoice}`);
-	
-	if ((choice === 'rock' && computerChoice === 'scissors') ||
-		(choice === 'scissors' && computerChoice === 'paper') ||
-		(choice === 'paper' && computerChoice === 'rock')) {
+	if ((userSelection === 'rock' && computerSelection === 'scissors') ||
+		(userSelection === 'scissors' && computerSelection === 'paper') ||
+		(userSelection === 'paper' && computerSelection === 'rock')) {
 			prompt('You win, huzzah!');
-	} else if ((choice === 'rock' && computerChoice === 'paper') ||
-		(choice === 'scissors' && computerChoice === 'rock') ||
-		(choice === 'paper' && computerChoice === 'scissors')) {
+	} else if ((userSelection === 'rock' && computerSelection === 'paper') ||
+		(userSelection === 'scissors' && computerSelection === 'rock') ||
+		(userSelection === 'paper' && computerSelection === 'scissors')) {
 			prompt('You lose, womp womp...');
 	} else {
 		prompt(`It's a draw.`);
 	}
+};
 
+const getPlayAgain = () => {
 	prompt('Do you want to play again (y/n)?');
 	let answer = question().toLowerCase();
+
 	while (answer[0] !== 'n' && answer[0] !== 'y') {
 		prompt(`Please enter 'y' or 'n'`);
-		answer = question().toLocaleLowerCase();
+		answer = question().toLowerCase();
 	}
 
-	if (answer !== 'y') break;
-}
+	return answer[0] === 'y';
+};
+
+const main = () => {
+	while (true) {
+		const userSelection = getUserSelection();
+		const computerSelection = getComputerSelection();
+		getWinner(userSelection, computerSelection);
+		
+		const playAgain = getPlayAgain();
+		if (!playAgain) break;
+	}
+};
+
+// Initialize
+main();
