@@ -60,7 +60,7 @@ const displayWelcome = () => {
  * Display game scores
  * @param {Object} scores
  */
-const displayScores = (scores) => {
+const displayScores = scores => {
 	prompt('SCORE BOARD');
 	prompt(`User: ${scores.user}`);
 	prompt(`Computer: ${scores.computer}`);
@@ -74,7 +74,7 @@ const displayScores = (scores) => {
  */
 const displayRoundWinner = (userSelection, computerSelection) => {
 	const userSelectionWins = WINNING_COMBINATIONS[userSelection].includes(computerSelection);
-	prompt(`\n=> You chose ${userSelection}, I chose ${computerSelection}`);
+	prompt(`\n=> You chose ${userSelection}, computer chose ${computerSelection}`);
 
 	if (userSelection === computerSelection) {
 		prompt(`It's a draw!`);
@@ -91,10 +91,24 @@ const displayRoundWinner = (userSelection, computerSelection) => {
  * Display game results
  * @param {Object} scores
  */
-const displayResults = scores => {
+const displayGameResults = scores => {
 	scores.user > scores.computer
 		? prompt(`You win with a final score of ${scores.user}!`)
-		: prompt(`I win with a final score of ${scores.computer}!`);
+		: prompt(`Computer wins with a final score of ${scores.computer}!`);
+};
+
+/**
+ * Implicit recursion to re-run game logic with memoized scores
+ * @todo Refactor this because this doesn't make sense
+ * @todo Give this a better name
+ */
+const shouldUserContinue = scores => {
+	if (scores.user < 3 && scores.computer < 3) {
+		continuePrompt();
+		game(scores.user, scores.computer)
+	} else {
+		displayGameResults(scores);
+	}
 };
 
 // Placeholder to allow scores to display before recursing to next round
@@ -136,38 +150,40 @@ const playAgain = () => {
 	return answer[0] === 'y';
 };
 
-/** 
- * Main
- * @param {number} userScore
- * @param {number} computerScore
- * @todo Decompose and clean this up
- */
-const game = (userScore = 0, computerScore = 0) => {
-	const scores = {
-		user: userScore,
-		computer: computerScore
-	};
-	
-	displayWelcome();
-	displayScores(scores);
-
-	const userSelection = getUserSelection();
-	const computerSelection = generateComputerSelection();
-	displayRoundWinner(userSelection, computerSelection);
-
+// Determine winner and add points to scoreboard
+const calculateScores = (userSelection, computerSelection, scores) => {
 	const userSelectionWins = WINNING_COMBINATIONS[userSelection].includes(computerSelection);
+
 	if (userSelectionWins) {
 		scores.user++;
 	} else if (userSelection !== computerSelection) {
 		scores.computer++;
 	}
 
-	if (scores.user < 3 && scores.computer < 3) {
-		continuePrompt();
-		game(scores.user, scores.computer)
-	} else {
-		displayResults(scores);
-	}
+	return scores;
+};
+
+/** 
+ * Main
+ * @param {number} userScore
+ * @param {number} computerScore
+ * @todo Decompose and clean this up
+ * @todo Can we get rid of these parameters?
+ */
+const game = (userScore = 0, computerScore = 0) => {
+	displayWelcome();
+
+	const userSelection = getUserSelection();
+	const computerSelection = generateComputerSelection();
+	let scores = {
+		user: userScore,
+		computer: computerScore
+	};
+	scores = calculateScores(userSelection, computerSelection, scores);
+	
+	displayRoundWinner(userSelection, computerSelection);
+	displayScores(scores);
+	shouldUserContinue(scores);
 };
 
 // Initialize
