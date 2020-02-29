@@ -9,11 +9,11 @@ const readline = createInterface({
 console.log('Welcome to Calculator!');
 
 // Ask the user for the first number
-readline.question("What's the first number?\n", answer1 => {
+readline.question(`What's the first number?\n`, answer1 => {
   num1 = answer1;
 
   // Ask the user for the second number
-  readline.question("What's the second number?\n", answer2 => {
+  readline.question(`What's the second number?\n`, answer2 => {
     num2 = answer2;
 
     // Ask the user for an operation to perform
@@ -30,7 +30,7 @@ readline.question("What's the first number?\n", answer1 => {
 readline.on('close', () => {
   const error =
     operator < 1 || operator > 4
-      ? "Whoops! You've selected an invalid operation"
+      ? `Whoops! You've selected an invalid operation`
       : 'Whoops! One or both of the entered number values are invalid';
 
   // Perform the operation on the two numbers

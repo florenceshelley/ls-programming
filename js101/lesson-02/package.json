@@ -4,7 +4,7 @@
   "description": "",
   "scripts": {
     "calc": "node calculator.js",
-    "rps": "node rps.js"
+    "rps": "node rock-paper-scissors.js"
   },
   "keywords": [],
   "author": "",
